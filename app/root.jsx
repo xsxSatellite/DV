@@ -1,32 +1,63 @@
+import { redirect } from '@remix-run/node'
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from '@remix-run/react'
 
-import "./tailwind.css";
+import { isIndex } from './utils/isIndex'
 
-export const links = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
+import './tailwind.css'
+
+export async function loader({ request }) {
+  if (isIndex(request)) return redirect('/user')
+
+  return null
+}
+
+export function meta({ error }) {
+  return [
+    { title: error ? 'Opps!' : 'Data Visualization' },
+    {
+      property: 'og:title',
+      content: 'Visualizing CSV data with chart',
+    },
+    {
+      name: 'description',
+      content: 'Data visualization will visualize CSV data with chart',
+    },
+  ]
+}
+
+export function ErrorBoundary() {
+  return (
+    <html lang='en'>
+      <head>
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div className='flex min-h-screen items-center justify-center'>
+          <p className='text-2xl'>
+            Something went wrong, please try and refresh later.
+          </p>
+        </div>
+        <Scripts />
+      </body>
+    </html>
+  )
+}
 
 export function Layout({ children }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
         <Meta />
         <Links />
       </head>
@@ -36,9 +67,9 @@ export function Layout({ children }) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }

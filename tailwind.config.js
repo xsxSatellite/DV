@@ -1,3 +1,5 @@
+import daisyui from "daisyui";
+
 export default {
   content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -16,5 +18,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    themes: ["cupcake", "sunset"],
+  },
+  plugins: [daisyui],
 };
